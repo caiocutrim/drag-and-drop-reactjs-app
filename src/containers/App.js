@@ -19,12 +19,18 @@ const AppWrapper = styled.div`
   text-align: center;
 `
 
+const lanes = [
+  { id: 1, title: 'To do' },
+  { id: 2, title: 'In progress' },
+  { id: 3, title: 'Review' },
+  { id: 4, title: 'Done' }
+]
 const App = () => (
   <>
     <GlobalStyle />
     <AppWrapper>
       <Header />
-      <Board />
+      <Board lanes={lanes} dataSource={'../../assets/data.json'} />
     </AppWrapper>
   </>
 )

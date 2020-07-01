@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Lane from '../components/Lane/Lane'
+import withDataFetching from './withDataFetching.js'
 
 const BoardWrapper = styled.div`
   display: flex;
@@ -12,30 +13,7 @@ const BoardWrapper = styled.div`
     flex-direction: column;
   }
 `
-const getTickets = (state, setState) => () => {
-  const fetchData = async () => {
-    try {
-      const tickets = await fetch('../../assets/data.json') // eslint-disable-line
-      const ticketsJSON = await tickets.json()
-      setState({ ...state, loading: false, data: ticketsJSON })
-    } catch (error) {
-      setState({ ...state, loading: false, error: error.message })
-    }
-  }
-  fetchData()
-}
-const Board = () => {
-  const [state, setState] = useState({ data: [], loading: true, error: '' })
-  useEffect(getTickets(state, setState))
-
-  const lanes = [
-    { id: 1, title: 'To Do' },
-    { id: 2, title: 'In Progress' },
-    { id: 3, title: 'Review' },
-    { id: 4, title: 'Done' }
-  ]
-
-  const { loading, data, error } = state
+const Board = ({ lanes, loading, error, data }) => {
   return (
     <BoardWrapper>
       {lanes.map(lane => (
@@ -50,4 +28,4 @@ const Board = () => {
   )
 }
 
-export default Board
+export default withDataFetching(Board)
